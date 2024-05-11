@@ -18,7 +18,13 @@ Follow these steps to clone and run the project:
    npm install
    ```
 
-3. **Run the development server**:
+3. **Run the following command**:
+
+   ```
+   cd Week-long-ReactJS-challenges
+   ```
+
+4. **Run the development server**:
    ```
    npm run dev
    ```
