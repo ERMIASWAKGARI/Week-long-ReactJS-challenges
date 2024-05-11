@@ -1,88 +1,100 @@
-// Day5LoginForm.tsx
-import React, { useState } from "react";
+import React, { Component } from "react";
 
-const Day5LoginForm: React.FC = () => {
-  // State to manage the email and password input fields
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  // State to manage the visibility of validation errors and welcome message
-  const [emailError, setEmailError] = useState<string>("");
-  const [passwordError, setPasswordError] = useState<string>("");
-  const [showWelcomeMessage, setShowWelcomeMessage] = useState<boolean>(false);
+class Day5LoginForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      emailError: "",
+      passwordError: "",
+      showWelcomeMessage: false,
+    };
+  }
 
-  // Function to handle form submission
-  const handleSubmit = (event: React.FormEvent) => {
+  handleSubmit = (event) => {
     event.preventDefault();
-
-    // Validate the user's credentials
-    if (validateCredentials()) {
-      setShowWelcomeMessage(true);
+    if (this.validateCredentials()) {
+      this.setState({ showWelcomeMessage: true });
     }
   };
 
-  // Function to validate the user's credentials
-  const validateCredentials = (): boolean => {
+  validateCredentials = () => {
+    const { email, password } = this.state;
     let isValid = true;
 
     // Validate email
     if (!email.trim()) {
-      setEmailError("Email is required");
+      this.setState({ emailError: "Email is required" });
       isValid = false;
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      setEmailError("Invalid email format");
+      this.setState({ emailError: "Invalid email format" });
       isValid = false;
     } else {
-      setEmailError("");
+      this.setState({ emailError: "" });
     }
 
     // Validate password
     if (!password.trim()) {
-      setPasswordError("Password is required");
+      this.setState({ passwordError: "Password is required" });
       isValid = false;
     } else if (password.length < 6) {
-      setPasswordError("Password must be at least 6 characters long");
+      this.setState({
+        passwordError: "Password must be at least 6 characters long",
+      });
       isValid = false;
     } else {
-      setPasswordError("");
+      this.setState({ passwordError: "" });
     }
 
     return isValid;
   };
 
-  return (
-    <div>
-      <h2>Login Form</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          {emailError && <span style={{ color: "red" }}>{emailError}</span>}
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          {passwordError && (
-            <span style={{ color: "red" }}>{passwordError}</span>
-          )}
-        </div>
-        <button type="submit">Login</button>
-      </form>
-      {/* Display the welcome message if valid credentials */}
-      {showWelcomeMessage && <p>Welcome, {email}!</p>}
-    </div>
-  );
-};
+  handleInputChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
+
+  render() {
+    const { email, password, emailError, passwordError, showWelcomeMessage } =
+      this.state;
+    return (
+      <div>
+        <h2>Login Form</h2>
+        <form onSubmit={this.handleSubmit}>
+          <div>
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={email}
+              onChange={this.handleInputChange}
+              required
+            />
+            {emailError && <span style={{ color: "red" }}>{emailError}</span>}
+          </div>
+          <div>
+            <label htmlFor="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={password}
+              onChange={this.handleInputChange}
+              required
+            />
+            {passwordError && (
+              <span style={{ color: "red" }}>{passwordError}</span>
+            )}
+          </div>
+          <button type="submit">Login</button>
+        </form>
+        {/* Display the welcome message if valid credentials */}
+        {showWelcomeMessage && <p>Welcome, {email}!</p>}
+      </div>
+    );
+  }
+}
 
 export default Day5LoginForm;

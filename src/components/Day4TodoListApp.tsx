@@ -1,49 +1,57 @@
-// Day4TodoListApp.tsx
-import React, { useState } from "react";
+import React, { Component } from "react";
 
-const Day4TodoListApp: React.FC = () => {
-  // State to manage the list of tasks
-  const [tasks, setTasks] = useState<string[]>([]);
-  // State to manage the input field for adding tasks
-  const [taskInput, setTaskInput] = useState<string>("");
+class Day4TodoListApp extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tasks: [],
+      taskInput: "",
+    };
+  }
 
-  // Function to handle adding a new task
-  const addTask = () => {
+  addTask = () => {
+    const { taskInput } = this.state;
     if (taskInput.trim() !== "") {
-      setTasks((prevTasks) => [...prevTasks, taskInput]);
-      setTaskInput("");
+      this.setState((prevState) => ({
+        tasks: [...prevState.tasks, taskInput],
+        taskInput: "",
+      }));
     }
   };
 
-  // Function to handle removing a task
-  const removeTask = (index: number) => {
-    setTasks((prevTasks) => prevTasks.filter((_, i) => i !== index));
+  removeTask = (index) => {
+    this.setState((prevState) => ({
+      tasks: prevState.tasks.filter((_, i) => i !== index),
+    }));
   };
 
-  return (
-    <div>
-      <h2>To-Do List App</h2>
-      {/* Input field for adding new tasks */}
-      <input
-        type="text"
-        value={taskInput}
-        onChange={(e) => setTaskInput(e.target.value)}
-        placeholder="Enter a new task..."
-      />
-      {/* Button to add a new task */}
-      <button onClick={addTask}>Add Task</button>
-      {/* Display the list of tasks */}
-      <ul>
-        {tasks.map((task, index) => (
-          <li key={index}>
-            {task}
-            {/* Button to remove a task */}
-            <button onClick={() => removeTask(index)}>Remove</button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+  handleInputChange = (e) => {
+    this.setState({ taskInput: e.target.value });
+  };
+
+  render() {
+    const { tasks, taskInput } = this.state;
+    return (
+      <div>
+        <h2>To-Do List App</h2>
+        <input
+          type="text"
+          value={taskInput}
+          onChange={this.handleInputChange}
+          placeholder="Enter a new task..."
+        />
+        <button onClick={this.addTask}>Add Task</button>
+        <ul>
+          {tasks.map((task, index) => (
+            <li key={index}>
+              {task}
+              <button onClick={() => this.removeTask(index)}>Remove</button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+}
 
 export default Day4TodoListApp;

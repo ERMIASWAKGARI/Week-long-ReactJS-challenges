@@ -1,8 +1,9 @@
-// Day1HelloWorld.tsx
-import React from "react";
+import React, { Component } from "react";
 
-const Day1HelloWorld: React.FC = () => {
-  return <h1>Hello, World! This is Day 1 Challenge.</h1>;
-};
+class Day1HelloWorld extends Component {
+  render() {
+    return <h1>Hello, World! This is Day 1 Challenge.</h1>;
+  }
+}
 
 export default Day1HelloWorld;

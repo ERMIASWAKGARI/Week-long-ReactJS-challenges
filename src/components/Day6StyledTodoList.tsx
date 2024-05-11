@@ -1,5 +1,4 @@
-// Day6StyledTodoList.tsx
-import React, { useState } from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 
 // Styled components
@@ -50,43 +49,60 @@ const TaskItem = styled.li`
 `;
 
 // Component
-const Day6StyledTodoList: React.FC = () => {
-  const [tasks, setTasks] = useState<string[]>([]);
-  const [taskInput, setTaskInput] = useState<string>("");
+class Day6StyledTodoList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tasks: [],
+      taskInput: "",
+    };
+  }
 
-  const addTask = () => {
+  addTask = () => {
+    const { taskInput } = this.state;
     if (taskInput.trim() !== "") {
-      setTasks((prevTasks) => [...prevTasks, taskInput]);
-      setTaskInput("");
+      this.setState((prevState) => ({
+        tasks: [...prevState.tasks, taskInput],
+        taskInput: "",
+      }));
     }
   };
 
-  const removeTask = (index: number) => {
-    setTasks((prevTasks) => prevTasks.filter((_, i) => i !== index));
+  removeTask = (index) => {
+    this.setState((prevState) => ({
+      tasks: prevState.tasks.filter((_, i) => i !== index),
+    }));
   };
 
-  return (
-    <Container>
-      <Title>To-Do List</Title>
-      <Form onSubmit={(e) => e.preventDefault()}>
-        <Input
-          type="text"
-          value={taskInput}
-          onChange={(e) => setTaskInput(e.target.value)}
-          placeholder="Enter a new task..."
-        />
-        <Button onClick={addTask}>Add Task</Button>
-      </Form>
-      <TaskList>
-        {tasks.map((task, index) => (
-          <TaskItem key={index}>
-            <span>{task}</span>
-            <Button onClick={() => removeTask(index)}>Remove</Button>
-          </TaskItem>
-        ))}
-      </TaskList>
-    </Container>
-  );
-};
+  handleInputChange = (e) => {
+    this.setState({ taskInput: e.target.value });
+  };
+
+  render() {
+    const { tasks, taskInput } = this.state;
+    return (
+      <Container>
+        <Title>To-Do List</Title>
+        <Form onSubmit={(e) => e.preventDefault()}>
+          <Input
+            type="text"
+            value={taskInput}
+            onChange={this.handleInputChange}
+            placeholder="Enter a new task..."
+          />
+          <Button onClick={this.addTask}>Add Task</Button>
+        </Form>
+        <TaskList>
+          {tasks.map((task, index) => (
+            <TaskItem key={index}>
+              <span>{task}</span>
+              <Button onClick={() => this.removeTask(index)}>Remove</Button>
+            </TaskItem>
+          ))}
+        </TaskList>
+      </Container>
+    );
+  }
+}
 
 export default Day6StyledTodoList;
