@@ -59,7 +59,7 @@ const Day7CounterApp = () => {
 
   return (
     <Container>
-      <Title>Counter App: Using class component </Title>
+      <Title>Counter App: Using Functional Component </Title>
       <Counter> Count: {counter}</Counter>
 
       <Button onClick={decrementCounter}>-</Button>
