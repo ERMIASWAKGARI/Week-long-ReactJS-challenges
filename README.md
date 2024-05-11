@@ -12,16 +12,16 @@ Follow these steps to clone and run the project:
    git clone https://github.com/ERMIASWAKGARI/Week-long-ReactJS-challenges.git
    ```
 
-2. **Install dependencies**:
-
-   ```
-   npm install
-   ```
-
-3. **Run the following command**:
+2. **Run the following command**:
 
    ```
    cd Week-long-ReactJS-challenges
+   ```
+
+3. **Install dependencies**:
+
+   ```
+   npm install
    ```
 
 4. **Run the development server**:
