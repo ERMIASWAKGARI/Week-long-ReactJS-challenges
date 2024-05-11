@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import styled from "styled-components";
 
 // Styled components
@@ -42,7 +42,11 @@ const Button = styled.button`
   }
 `;
 
-class Day3CounterApp extends Component {
+interface State {
+  counter: number;
+}
+
+class Day3CounterApp extends Component<{}, State> {
   constructor(props: object) {
     super(props);
     this.state = {
@@ -66,9 +70,9 @@ class Day3CounterApp extends Component {
       <Container>
         <Title>Counter App</Title>
         <Counter>Counter: {counter}</Counter>
-        {/* Button to decrement counter */}
+
         <Button onClick={this.decrementCounter}>-</Button>
-        {/* Button to increment counter */}
+
         <Button onClick={this.incrementCounter}>+</Button>
       </Container>
     );

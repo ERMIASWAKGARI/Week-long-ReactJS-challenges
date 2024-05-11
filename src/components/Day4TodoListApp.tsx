@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component, ChangeEvent } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -56,13 +56,24 @@ const TaskItem = styled.li`
   border-bottom: 1px solid #ccc;
 `;
 
-class Day4TodoListApp extends Component {
-  constructor(props) {
+interface Task {
+  task: string;
+  details: string;
+}
+
+interface State {
+  tasks: Task[];
+  taskInput: string;
+  taskDetailsInput: string;
+}
+
+class Day4TodoListApp extends Component<object, State> {
+  constructor(props: object) {
     super(props);
     this.state = {
       tasks: [],
       taskInput: "",
-      taskDetailsInput: "", // Additional input field for task details
+      taskDetailsInput: "",
     };
   }
 
@@ -72,7 +83,7 @@ class Day4TodoListApp extends Component {
       this.setState((prevState) => ({
         tasks: [
           ...prevState.tasks,
-          { task: taskInput, details: taskDetailsInput }, // Store task details as an object
+          { task: taskInput, details: taskDetailsInput },
         ],
         taskInput: "",
         taskDetailsInput: "",
@@ -80,14 +91,17 @@ class Day4TodoListApp extends Component {
     }
   };
 
-  removeTask = (index) => {
+  removeTask = (index: number) => {
     this.setState((prevState) => ({
       tasks: prevState.tasks.filter((_, i) => i !== index),
     }));
   };
 
-  handleInputChange = (e, inputType) => {
-    this.setState({ [inputType]: e.target.value });
+  handleInputChange = (e: ChangeEvent<HTMLInputElement>, inputType: string) => {
+    this.setState({ [inputType]: e.target.value } as unknown as Pick<
+      State,
+      keyof State
+    >);
   };
 
   render() {
@@ -95,20 +109,23 @@ class Day4TodoListApp extends Component {
     return (
       <Container>
         <Title>To-Do List App</Title>
+
         <Input
           type="text"
           value={taskInput}
           onChange={(e) => this.handleInputChange(e, "taskInput")}
           placeholder="Enter a new task..."
         />
-        {/* Additional input field for task details */}
+
         <Input
           type="text"
           value={taskDetailsInput}
           onChange={(e) => this.handleInputChange(e, "taskDetailsInput")}
           placeholder="Enter task details..."
         />
+
         <Button onClick={this.addTask}>Add Task</Button>
+
         <TaskList>
           {tasks.map((task, index) => (
             <TaskItem key={index}>

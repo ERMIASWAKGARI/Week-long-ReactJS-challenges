@@ -78,6 +78,7 @@ const Day6StyledTodoList: React.FC = () => {
   return (
     <Container>
       <Title>To-Do List: Applied other styles</Title>
+
       <Form onSubmit={(e) => e.preventDefault()}>
         <Input
           type="text"
@@ -85,15 +86,17 @@ const Day6StyledTodoList: React.FC = () => {
           onChange={(e) => setTaskInput(e.target.value)}
           placeholder="Enter a new task..."
         />
-        {/* Additional input field for task details */}
+
         <Input
           type="text"
           value={taskDetailsInput}
           onChange={(e) => setTaskDetailsInput(e.target.value)}
           placeholder="Enter task details..."
         />
+
         <Button onClick={addTask}>Add Task</Button>
       </Form>
+
       <TaskList>
         {tasks.map((task, index) => (
           <TaskItem key={index}>

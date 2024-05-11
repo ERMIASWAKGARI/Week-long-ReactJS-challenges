@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component, ChangeEvent, FormEvent } from "react";
 import styled from "styled-components";
 
 // Styled components
@@ -54,8 +54,16 @@ const SubmitButton = styled.button`
   }
 `;
 
-class Day5LoginForm extends Component {
-  constructor(props) {
+interface State {
+  email: string;
+  password: string;
+  emailError: string;
+  passwordError: string;
+  showWelcomeMessage: boolean;
+}
+
+class Day5LoginForm extends Component<{}, State> {
+  constructor(props: object) {
     super(props);
     this.state = {
       email: "",
@@ -66,7 +74,7 @@ class Day5LoginForm extends Component {
     };
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (this.validateCredentials()) {
       this.setState({ showWelcomeMessage: true });
@@ -104,9 +112,9 @@ class Day5LoginForm extends Component {
     return isValid;
   };
 
-  handleInputChange = (event) => {
+  handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    this.setState({ [name]: value } as unknown as Pick<State, keyof State>);
   };
 
   render() {
@@ -115,6 +123,7 @@ class Day5LoginForm extends Component {
     return (
       <Container>
         <Title>Login Form</Title>
+
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
             <Label htmlFor="email">Email:</Label>
@@ -128,6 +137,7 @@ class Day5LoginForm extends Component {
             />
             {emailError && <ErrorMsg>{emailError}</ErrorMsg>}
           </FormGroup>
+
           <FormGroup>
             <Label htmlFor="password">Password:</Label>
             <Input
@@ -140,9 +150,9 @@ class Day5LoginForm extends Component {
             />
             {passwordError && <ErrorMsg>{passwordError}</ErrorMsg>}
           </FormGroup>
+
           <SubmitButton type="submit">Login</SubmitButton>
         </Form>
-        {/* Display the welcome message if valid credentials */}
         {showWelcomeMessage && <p>Welcome, {email}!</p>}
       </Container>
     );
