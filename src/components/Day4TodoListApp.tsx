@@ -1,4 +1,60 @@
 import React, { Component } from "react";
+import styled from "styled-components";
+
+const Container = styled.div`
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+`;
+
+const Title = styled.h2`
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 20px;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+`;
+
+const Button = styled.button`
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+
+  &:first-child {
+    margin-right: 10px;
+  }
+`;
+
+const TaskList = styled.ul`
+  list-style-type: none;
+  padding: 0;
+`;
+
+const TaskItem = styled.li`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+`;
 
 class Day4TodoListApp extends Component {
   constructor(props) {
@@ -6,15 +62,20 @@ class Day4TodoListApp extends Component {
     this.state = {
       tasks: [],
       taskInput: "",
+      taskDetailsInput: "", // Additional input field for task details
     };
   }
 
   addTask = () => {
-    const { taskInput } = this.state;
+    const { taskInput, taskDetailsInput } = this.state;
     if (taskInput.trim() !== "") {
       this.setState((prevState) => ({
-        tasks: [...prevState.tasks, taskInput],
+        tasks: [
+          ...prevState.tasks,
+          { task: taskInput, details: taskDetailsInput }, // Store task details as an object
+        ],
         taskInput: "",
+        taskDetailsInput: "",
       }));
     }
   };
@@ -25,31 +86,41 @@ class Day4TodoListApp extends Component {
     }));
   };
 
-  handleInputChange = (e) => {
-    this.setState({ taskInput: e.target.value });
+  handleInputChange = (e, inputType) => {
+    this.setState({ [inputType]: e.target.value });
   };
 
   render() {
-    const { tasks, taskInput } = this.state;
+    const { tasks, taskInput, taskDetailsInput } = this.state;
     return (
-      <div>
-        <h2>To-Do List App</h2>
-        <input
+      <Container>
+        <Title>To-Do List App</Title>
+        <Input
           type="text"
           value={taskInput}
-          onChange={this.handleInputChange}
+          onChange={(e) => this.handleInputChange(e, "taskInput")}
           placeholder="Enter a new task..."
         />
-        <button onClick={this.addTask}>Add Task</button>
-        <ul>
+        {/* Additional input field for task details */}
+        <Input
+          type="text"
+          value={taskDetailsInput}
+          onChange={(e) => this.handleInputChange(e, "taskDetailsInput")}
+          placeholder="Enter task details..."
+        />
+        <Button onClick={this.addTask}>Add Task</Button>
+        <TaskList>
           {tasks.map((task, index) => (
-            <li key={index}>
-              {task}
-              <button onClick={() => this.removeTask(index)}>Remove</button>
-            </li>
+            <TaskItem key={index}>
+              <div>
+                <div>{task.task}</div>
+                <div>{task.details}</div>
+              </div>
+              <Button onClick={() => this.removeTask(index)}>Remove</Button>
+            </TaskItem>
           ))}
-        </ul>
-      </div>
+        </TaskList>
+      </Container>
     );
   }
 }

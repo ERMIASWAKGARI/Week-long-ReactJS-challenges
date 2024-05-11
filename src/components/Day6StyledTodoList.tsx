@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 // Styled components
@@ -10,6 +10,8 @@ const Container = styled.div`
 const Title = styled.h2`
   color: #333;
   text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
 `;
 
 const Form = styled.form`
@@ -18,20 +20,24 @@ const Form = styled.form`
 
 const Input = styled.input`
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   margin-bottom: 10px;
+  border: 1px solid #007bff; /* Blue border */
+  border-radius: 5px;
 `;
 
 const Button = styled.button`
   width: 100%;
-  padding: 8px;
-  background-color: #007bff;
+  padding: 10px;
+  background-color: #ff5722; /* Orange background */
   color: #fff;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: #e64a19; /* Darker orange on hover */
   }
 `;
 
@@ -44,65 +50,63 @@ const TaskItem = styled.li`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px;
+  padding: 10px;
   border-bottom: 1px solid #ccc;
 `;
 
 // Component
-class Day6StyledTodoList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tasks: [],
-      taskInput: "",
-    };
-  }
+const Day6StyledTodoList: React.FC = () => {
+  const [tasks, setTasks] = useState<{ task: string; details: string }[]>([]);
+  const [taskInput, setTaskInput] = useState<string>("");
+  const [taskDetailsInput, setTaskDetailsInput] = useState<string>("");
 
-  addTask = () => {
-    const { taskInput } = this.state;
+  const addTask = () => {
     if (taskInput.trim() !== "") {
-      this.setState((prevState) => ({
-        tasks: [...prevState.tasks, taskInput],
-        taskInput: "",
-      }));
+      setTasks((prevTasks) => [
+        ...prevTasks,
+        { task: taskInput, details: taskDetailsInput },
+      ]);
+      setTaskInput("");
+      setTaskDetailsInput("");
     }
   };
 
-  removeTask = (index) => {
-    this.setState((prevState) => ({
-      tasks: prevState.tasks.filter((_, i) => i !== index),
-    }));
+  const removeTask = (index: number) => {
+    setTasks((prevTasks) => prevTasks.filter((_, i) => i !== index));
   };
 
-  handleInputChange = (e) => {
-    this.setState({ taskInput: e.target.value });
-  };
-
-  render() {
-    const { tasks, taskInput } = this.state;
-    return (
-      <Container>
-        <Title>To-Do List</Title>
-        <Form onSubmit={(e) => e.preventDefault()}>
-          <Input
-            type="text"
-            value={taskInput}
-            onChange={this.handleInputChange}
-            placeholder="Enter a new task..."
-          />
-          <Button onClick={this.addTask}>Add Task</Button>
-        </Form>
-        <TaskList>
-          {tasks.map((task, index) => (
-            <TaskItem key={index}>
-              <span>{task}</span>
-              <Button onClick={() => this.removeTask(index)}>Remove</Button>
-            </TaskItem>
-          ))}
-        </TaskList>
-      </Container>
-    );
-  }
-}
+  return (
+    <Container>
+      <Title>To-Do List: Applied other styles</Title>
+      <Form onSubmit={(e) => e.preventDefault()}>
+        <Input
+          type="text"
+          value={taskInput}
+          onChange={(e) => setTaskInput(e.target.value)}
+          placeholder="Enter a new task..."
+        />
+        {/* Additional input field for task details */}
+        <Input
+          type="text"
+          value={taskDetailsInput}
+          onChange={(e) => setTaskDetailsInput(e.target.value)}
+          placeholder="Enter task details..."
+        />
+        <Button onClick={addTask}>Add Task</Button>
+      </Form>
+      <TaskList>
+        {tasks.map((task, index) => (
+          <TaskItem key={index}>
+            <div>
+              <div>{task.task}</div>
+              <div>{task.details}</div>
+            </div>
+            <Button onClick={() => removeTask(index)}>Remove</Button>
+          </TaskItem>
+        ))}
+      </TaskList>
+    </Container>
+  );
+};
 
 export default Day6StyledTodoList;

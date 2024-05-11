@@ -1,4 +1,58 @@
 import React, { Component } from "react";
+import styled from "styled-components";
+
+// Styled components
+const Container = styled.div`
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const Title = styled.h2`
+  color: #333;
+  margin-bottom: 20px;
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
+const FormGroup = styled.div`
+  margin-bottom: 20px;
+`;
+
+const Label = styled.label`
+  margin-bottom: 5px;
+  font-weight: bold;
+`;
+
+const Input = styled.input`
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+`;
+
+const ErrorMsg = styled.span`
+  color: red;
+`;
+
+const SubmitButton = styled.button`
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
 
 class Day5LoginForm extends Component {
   constructor(props) {
@@ -59,12 +113,12 @@ class Day5LoginForm extends Component {
     const { email, password, emailError, passwordError, showWelcomeMessage } =
       this.state;
     return (
-      <div>
-        <h2>Login Form</h2>
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            <label htmlFor="email">Email:</label>
-            <input
+      <Container>
+        <Title>Login Form</Title>
+        <Form onSubmit={this.handleSubmit}>
+          <FormGroup>
+            <Label htmlFor="email">Email:</Label>
+            <Input
               type="email"
               id="email"
               name="email"
@@ -72,11 +126,11 @@ class Day5LoginForm extends Component {
               onChange={this.handleInputChange}
               required
             />
-            {emailError && <span style={{ color: "red" }}>{emailError}</span>}
-          </div>
-          <div>
-            <label htmlFor="password">Password:</label>
-            <input
+            {emailError && <ErrorMsg>{emailError}</ErrorMsg>}
+          </FormGroup>
+          <FormGroup>
+            <Label htmlFor="password">Password:</Label>
+            <Input
               type="password"
               id="password"
               name="password"
@@ -84,15 +138,13 @@ class Day5LoginForm extends Component {
               onChange={this.handleInputChange}
               required
             />
-            {passwordError && (
-              <span style={{ color: "red" }}>{passwordError}</span>
-            )}
-          </div>
-          <button type="submit">Login</button>
-        </form>
+            {passwordError && <ErrorMsg>{passwordError}</ErrorMsg>}
+          </FormGroup>
+          <SubmitButton type="submit">Login</SubmitButton>
+        </Form>
         {/* Display the welcome message if valid credentials */}
         {showWelcomeMessage && <p>Welcome, {email}!</p>}
-      </div>
+      </Container>
     );
   }
 }
