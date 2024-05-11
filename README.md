@@ -28,7 +28,7 @@ Follow these steps to clone and run the project:
    ```
    npm run dev
    ```
-   THE YOU CAN SEE THE CHALLENGES LIVE ON THE BROWSER, GOING TO: http://localhost:5173/
+   THEN YOU CAN SEE THE CHALLENGES LIVE ON THE BROWSER, GOING TO: http://localhost:5173/
 
 ## Additional Information
 
