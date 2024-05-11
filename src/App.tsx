@@ -6,6 +6,7 @@ import Day3CounterApp from "./components/Day3CounterApp";
 import Day4TodoListApp from "./components/Day4TodoListApp";
 import Day5LoginForm from "./components/Day5LoginForm";
 import Day6StyledTodoList from "./components/Day6StyledTodoList";
+import Day7TodoListApp from "./components/Day7TodoListApp";
 
 const App: React.FC = () => {
   const [currentChallenge, setCurrentChallenge] = useState<number | null>(null);
@@ -24,6 +25,8 @@ const App: React.FC = () => {
         return <Day5LoginForm />;
       case 6:
         return <Day6StyledTodoList />;
+      case 7:
+        return <Day7TodoListApp />;
       default:
         return null;
     }
@@ -38,6 +41,7 @@ const App: React.FC = () => {
         <button onClick={() => setCurrentChallenge(4)}>Day 4</button>
         <button onClick={() => setCurrentChallenge(5)}>Day 5</button>
         <button onClick={() => setCurrentChallenge(6)}>Day 6</button>
+        <button onClick={() => setCurrentChallenge(7)}>Day 7</button>
       </nav>
       {renderChallenge()}
     </div>
